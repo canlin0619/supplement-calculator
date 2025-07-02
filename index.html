@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>補邊長計算器</title>
+  <meta name="theme-color" content="#121212">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
   <style>
     :root {
       color-scheme: dark light;
@@ -81,14 +90,10 @@
         return;
       }
 
-      // 計算 c 對角
-      const angleC = Math.acos((a * a + b * b - c * c) / (2 * a * b)) * 180 / 3.1415926;
-
-      // 計算補邊長
+      const angleC = Math.acos((a*a + b*b - c*c) / (2 * a * b)) * 180 / 3.1415926;
       const supplement = depth / Math.tan((180 - angleC) * 3.1415926 / 180);
 
-      document.getElementById('result').innerHTML =
-        `補邊長為：${supplement.toFixed(4)} mm`;
+      document.getElementById('result').innerHTML = `補邊長為：${supplement.toFixed(4)} mm`;
     }
 
     function clearInputs() {
