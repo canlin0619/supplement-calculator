@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>補邊長計算器</title>
+  <style>
+    :root {
+      color-scheme: dark light;
+    }
+    body {
+      font-family: sans-serif;
+      padding: 1rem;
+      margin: auto;
+      background: #121212;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 100%;
+      min-height: 100vh;
+    }
+    h2, p {
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.25rem;
+    }
+    button {
+      width: 90%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 0.25rem;
+    }
+    .result {
+      font-weight: bold;
+      font-size: 1.4rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>補邊長計算器</h2>
+  <p>請輸入三邊長與櫃子深度，系統會自動計算補邊長。</p>
+
+  <label>邊長 a (mm)</label>
+  <input type="number" id="a" />
+
+  <label>邊長 b (mm)</label>
+  <input type="number" id="b" />
+
+  <label>斜邊長 c (mm)</label>
+  <input type="number" id="c" />
+
+  <label>櫃子深度 (mm)</label>
+  <input type="number" id="depth" value="600" />
+
+  <button onclick="calculate()">計算補邊長</button>
+  <button onclick="clearInputs()">清空輸入欄位</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculate() {
+      const a = parseFloat(document.getElementById('a').value);
+      const b = parseFloat(document.getElementById('b').value);
+      const c = parseFloat(document.getElementById('c').value);
+      const depth = parseFloat(document.getElementById('depth').value);
+
+      if (!a || !b || !c || !depth) {
+        document.getElementById('result').innerText = '請完整填入所有欄位';
+        return;
+      }
+
+      // 計算 c 對角
+      const angleC = Math.acos((a * a + b * b - c * c) / (2 * a * b)) * 180 / 3.1415926;
+
+      // 計算補邊長
+      const supplement = depth / Math.tan((180 - angleC) * 3.1415926 / 180);
+
+      document.getElementById('result').innerHTML =
+        `補邊長為：${supplement.toFixed(4)} mm`;
+    }
+
+    function clearInputs() {
+      document.getElementById('a').value = '';
+      document.getElementById('b').value = '';
+      document.getElementById('c').value = '';
+      document.getElementById('depth').value = '600';
+      document.getElementById('result').innerText = '';
+    }
+  </script>
+</body>
+</html>
